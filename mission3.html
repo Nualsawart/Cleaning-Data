@@ -61,11 +61,11 @@ select,textarea{width:100%;border:1px solid #d5dbe6;border-radius:10px;padding:1
 <div class="error" id="error">กรุณาตอบทุกข้อ และคำตอบอธิบายต้องมีอย่างน้อย 20 ตัวอักษรต่อข้อ</div>
 </section>
 
-<div class="actions"><button class="back" onclick="location.href='mission2.html'">กลับ Mission 2</button><button class="submit" onclick="submitMission()">ส่ง Mission 3</button></div>
+<div class="actions"><button class="back" onclick="location.href='mission2.html'">กลับ Mission 2</button><button type="button" class="submit" onclick="submitMission()">ส่ง Mission 3</button></div>
 <section class="card result" id="result"><h2>ส่ง Mission 3 สำเร็จ</h2><div class="score" id="score">--/15</div><p id="msg"></p><div class="actions"><button class="back" onclick="location.href='mission2.html'">กลับ Mission 2</button><button class="submit" onclick="location.href='mission4.html'">ไป Mission 4</button></div></section>
 </main>
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbxxuSiFtImSQshGuZ5Pde03tADOk9Bfve2t6LNdrscyTK_geFBFwvjm6gp8q8GFX-tt/exec";
 const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
 document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
 function submitMission(){
@@ -88,7 +88,11 @@ function submitMission(){
     return;
   }
   const payload={name:student.name,room:student.room,no:student.no,mission:"mission3",score:score};
-  fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(console.error);
+  try{
+    const qs=new URLSearchParams(payload).toString();
+    const img=new Image();
+    img.src=API_URL+"?"+qs;
+  }catch(e){console.error("บันทึกคะแนน:",e);}
   localStorage.setItem("datalab_mission3",JSON.stringify({score,percent}));
   const result=document.getElementById("result");
   const msg=document.getElementById("msg");

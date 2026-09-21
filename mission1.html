@@ -214,7 +214,7 @@ button:hover{filter:brightness(.96)}
 
   <div class="actions">
     <button class="back" onclick="location.href='index.html'">กลับหน้าแรก</button>
-    <button class="submit" onclick="submitMission()">ส่งคำตอบเพื่อตรวจ</button>
+    <button type="button" class="submit" onclick="submitMission()">ส่งคำตอบเพื่อตรวจ</button>
   </div>
 
   <section class="card result" id="result">
@@ -223,13 +223,13 @@ button:hover{filter:brightness(.96)}
     <div class="feedback" id="feedback"></div>
     <div class="actions">
       <button class="back" onclick="location.reload()">แก้ไขและส่งใหม่</button>
-      <a class="submit" href="mission2.html" style="display:inline-block;text-decoration:none;color:#fff">ไป Mission 2</a>
+      <button class="submit" onclick="location.href='mission2.html'">ไป Mission 2</button>
     </div>
   </section>
 </main>
 
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbxxuSiFtImSQshGuZ5Pde03tADOk9Bfve2t6LNdrscyTK_geFBFwvjm6gp8q8GFX-tt/exec";
 const student = JSON.parse(localStorage.getItem("datalab_student") || "null");
 const info = document.getElementById("studentInfo");
 
@@ -261,7 +261,11 @@ function submitMission(){
     return;
   }
   const payload={name:student.name,room:student.room,no:student.no,mission:"mission1",score:score};
-  fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(console.error);
+  try{
+    const qs=new URLSearchParams(payload).toString();
+    const img=new Image();
+    img.src=API_URL+"?"+qs;
+  }catch(e){console.error("บันทึกคะแนน:",e);}
   localStorage.setItem("datalab_mission1",JSON.stringify({score,percent}));
   const result=document.getElementById("result");
   const msg=document.getElementById("msg");
