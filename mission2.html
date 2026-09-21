@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission 2 | Clean the Data</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315efb,#6846d9);color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800}.brand small{display:block;font-size:.75rem;opacity:.85;margin-top:3px}.progress{background:#ffffff20;padding:9px 13px;border-radius:10px}
+.container{max-width:1100px;margin:auto;padding:30px 22px 60px}
+.top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px}h1{margin:0 0 7px;font-size:2rem}.desc{margin:0;color:#667085;line-height:1.6}
+.student{background:#fff;border:1px solid #e3e7ef;border-radius:12px;padding:11px 14px;color:#667085;font-size:.88rem}
+.card{background:#fff;border:1px solid #e3e7ef;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 8px 24px #1f2d3d0b}
+.card h2{font-size:1.15rem;margin:0 0 8px}.hint{color:#667085;line-height:1.65;font-size:.92rem}
+table{width:100%;border-collapse:collapse;margin-top:18px;min-width:700px}th{background:#eef2ff;color:#263b9b;text-align:left;padding:11px;font-size:.86rem}td{padding:10px;border-top:1px solid #edf0f5;font-size:.87rem}
+.wrap{overflow:auto;border:1px solid #e0e5ee;border-radius:12px}
+input,select,textarea{width:100%;border:1px solid #d5dbe6;border-radius:10px;padding:10px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:#315efb}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}.box{border:1px solid #e0e4ec;border-radius:13px;padding:15px}.box label{display:block;font-weight:700;margin-bottom:8px;font-size:.9rem}.box small{display:block;color:#7b8494;margin-bottom:9px;line-height:1.5}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}button{border:0;border-radius:11px;padding:13px 20px;font-weight:800;cursor:pointer}.back{background:#eef1f6;color:#344054}.submit{background:#315efb;color:#fff}
+.error{display:none;color:#c62828;font-size:.86rem;margin-top:12px}.result{display:none;background:#f7f8ff;border-color:#cfd8ff}.score{font-size:2rem;font-weight:900;color:#315efb}
+@media(max-width:700px){.top{display:block}.student{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">DataLab M.6<small>Data Cleaning &amp; Data Analysis</small></div>
+<div class="progress">Mission 2 / 5</div>
+</header>
+
+<main class="container">
+<div class="top">
+<div><h1>Mission 2: Clean the Data</h1><p class="desc">ภารกิจทำความสะอาดข้อมูล — แปลงข้อมูลที่ไม่เป็นมาตรฐานให้พร้อมสำหรับการวิเคราะห์</p></div>
+<div class="student" id="studentInfo">กำลังโหลดข้อมูล...</div>
+</div>
+
+<section class="card">
+<h2>สถานการณ์</h2>
+<p class="hint">ข้อมูลจากหลายแหล่งอาจใช้คำ รูปแบบ หรือหน่วยไม่เหมือนกัน ก่อนนำไปวิเคราะห์ นักวิเคราะห์ข้อมูลต้องกำหนดมาตรฐานให้ชัดเจน</p>
+<div class="wrap">
+<table>
+<thead><tr><th>รหัส</th><th>เพศ</th><th>จังหวัด</th><th>ระดับการศึกษา</th><th>คะแนน</th></tr></thead>
+<tbody>
+<tr><td>S021</td><td>ชาย</td><td>ปทุมธานี</td><td>ม.6</td><td>82</td></tr>
+<tr><td>S022</td><td>male</td><td>Pathum Thani</td><td>ม.6</td><td>78</td></tr>
+<tr><td>S023</td><td>หญิง</td><td>ปทุมธานี</td><td>ม. 6</td><td>91</td></tr>
+<tr><td>S024</td><td>Female</td><td>ปทุมธานี</td><td>ม6</td><td>88</td></tr>
+<tr><td>S025</td><td>ชาย</td><td>Pathumthani</td><td>ม.6</td><td>75</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="card">
+<h2>ตอนที่ 1 — กำหนดมาตรฐานข้อมูล</h2>
+<p class="hint">เลือกมาตรฐานที่ต้องการใช้กับข้อมูลชุดนี้ แล้วอธิบายเหตุผล</p>
+<div class="grid">
+<div class="box"><label>มาตรฐานเพศ</label><select id="gender"><option value="">-- เลือก --</option><option>ชาย / หญิง</option><option>Male / Female</option><option>M / F</option></select></div>
+<div class="box"><label>มาตรฐานจังหวัด</label><select id="province"><option value="">-- เลือก --</option><option>ปทุมธานี</option><option>Pathum Thani</option><option>PT</option></select></div>
+<div class="box"><label>มาตรฐานระดับการศึกษา</label><select id="education"><option value="">-- เลือก --</option><option>ม.6</option><option>ม6</option><option>Grade 12</option></select></div>
+<div class="box"><label>การจัดการข้อมูลผิดรูปแบบ</label><select id="format"><option value="">-- เลือก --</option><option>แปลงให้อยู่ในรูปแบบมาตรฐานเดียวกัน</option><option>ลบทิ้งทั้งหมด</option><option>เก็บไว้โดยไม่แก้ไข</option></select></div>
+</div>
+<div style="margin-top:18px">
+<label for="reason" style="font-weight:700">อธิบายเหตุผลว่าทำไมต้องทำข้อมูลให้เป็นมาตรฐานเดียวกัน <span style="color:#c62828">* อย่างน้อย 20 ตัวอักษร</span></label>
+<textarea id="reason" rows="5" placeholder="อธิบายด้วยภาษาของตนเอง..."></textarea>
+</div>
+<div class="error" id="error">กรุณาเลือกคำตอบให้ครบทุกข้อ และเขียนเหตุผลอย่างน้อย 20 ตัวอักษร</div>
+</section>
+
+<div class="actions">
+<button class="back" onclick="location.href='mission1.html'">กลับ Mission 1</button>
+<button class="submit" onclick="submitMission()">ส่ง Mission 2</button>
+</div>
+
+<section class="card result" id="result">
+<h2>ส่ง Mission 2 สำเร็จ</h2>
+<div class="score" id="score">--/20</div>
+<p id="msg"></p>
+<div class="actions">
+<button class="back" onclick="location.href='mission1.html'">กลับ Mission 1</button>
+<button class="submit" onclick="location.href='mission3.html'">ไป Mission 3</button>
+</div>
+</section>
+</main>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
+document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
+
+function submitMission(){
+ const vals=["gender","province","education","format"].map(id=>document.getElementById(id).value);
+ const reason=document.getElementById("reason").value.trim();
+ const ok=vals.every(Boolean)&&reason.length>=20;
+ document.getElementById("error").style.display=ok?"none":"block";
+ if(!ok)return;
+
+ const correct=["ชาย / หญิง","ปทุมธานี","ม.6","แปลงให้อยู่ในรูปแบบมาตรฐานเดียวกัน"];
+ let objective=vals.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
+ let score=Math.round((objective/4)*12)+Math.min(8,Math.round((reason.length/100)*8));
+ score=Math.min(20,score);
+ const attempts=Number(localStorage.getItem("datalab_mission2_attempts")||0)+1;
+ localStorage.setItem("datalab_mission2_attempts",attempts);
+ localStorage.setItem("datalab_mission2",JSON.stringify({score,answers:vals,reason}));
+
+ const payload={
+  name:student?.name||"",room:student?.room||"",no:student?.no||"",
+  mission1:"",mission2:score,mission3:"",mission4:"",mission5:"",
+  total:score,fullScore:20,percent:Math.round(score/20*100),
+  status:score>=12?"ผ่าน":"ต้องปรับปรุง",attempts,
+  aiFeedback:"Mission 2 ตรวจเบื้องต้นจากมาตรฐานข้อมูลและเหตุผล",
+  strengths:objective>=3?"เลือกมาตรฐานข้อมูลได้เหมาะสม":"ควรตรวจสอบมาตรฐานข้อมูลให้สอดคล้องกัน",
+  improvements:reason.length<60?"ควรอธิบายเหตุผลให้ละเอียดขึ้น":"ควรเชื่อมโยงการทำความสะอาดกับผลต่อการวิเคราะห์",
+  level:score>=17?"ดีมาก":score>=14?"ดี":score>=10?"กำลังพัฒนา":"เริ่มต้น",
+  passed:score>=12?"ผ่าน":"ไม่ผ่าน"
+ };
+ fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+ document.getElementById("score").textContent=`${score}/20`;
+ document.getElementById("msg").textContent="บันทึกผล Mission 2 แล้ว และส่งข้อมูลไปยัง Google Sheets";
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>
