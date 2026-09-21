@@ -94,8 +94,10 @@ function submitMission(){
   const payload={name:student.name,room:student.room,no:student.no,mission:"mission4",score:score};
   try{
     const qs=new URLSearchParams(payload).toString();
+    const url=API_URL+"?"+qs+"&t="+Date.now();
+    fetch(url,{method:"GET",mode:"no-cors",cache:"no-store",keepalive:true}).catch(()=>{});
     const img=new Image();
-    img.src=API_URL+"?"+qs;
+    img.src=url;
   }catch(e){console.error("บันทึกคะแนน:",e);}
   localStorage.setItem("datalab_mission4",JSON.stringify({score,percent}));
   const result=document.getElementById("result");
