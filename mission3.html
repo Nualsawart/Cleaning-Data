@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mission 3 | Missing Data</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315efb,#6846d9);color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800}.brand small{display:block;font-size:.75rem;opacity:.85}.progress{background:#ffffff20;padding:9px 13px;border-radius:10px}
+.container{max-width:1100px;margin:auto;padding:30px 22px 60px}.top{display:flex;justify-content:space-between;gap:18px;margin-bottom:22px}.top h1{margin:0 0 7px;font-size:2rem}.desc{margin:0;color:#667085;line-height:1.6}.student{background:#fff;border:1px solid #e3e7ef;border-radius:12px;padding:11px 14px;color:#667085;font-size:.88rem}
+.card{background:#fff;border:1px solid #e3e7ef;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 8px 24px #1f2d3d0b}.card h2{font-size:1.15rem;margin:0 0 8px}.hint{color:#667085;line-height:1.65;font-size:.92rem}
+.wrap{overflow:auto;border:1px solid #e0e5ee;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:720px}th{background:#eef2ff;color:#263b9b;text-align:left;padding:11px;font-size:.86rem}td{padding:10px;border-top:1px solid #edf0f5;font-size:.87rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}.box{border:1px solid #e0e4ec;border-radius:13px;padding:15px}.box label{display:block;font-weight:700;margin-bottom:8px;font-size:.9rem}.box small{display:block;color:#7b8494;margin-bottom:9px;line-height:1.5}
+select,textarea{width:100%;border:1px solid #d5dbe6;border-radius:10px;padding:10px;font:inherit;outline:none}select:focus,textarea:focus{border-color:#315efb}textarea{min-height:115px;resize:vertical;line-height:1.6}
+.notice{padding:13px 15px;background:#f7f8ff;border-left:4px solid #315efb;border-radius:8px;color:#475467;margin-top:15px;line-height:1.6}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}button{border:0;border-radius:11px;padding:13px 20px;font-weight:800;cursor:pointer}.back{background:#eef1f6;color:#344054}.submit{background:#315efb;color:#fff}
+.error{display:none;color:#c62828;font-size:.86rem;margin-top:12px}.result{display:none;background:#f7f8ff;border-color:#cfd8ff}.score{font-size:2rem;font-weight:900;color:#315efb}
+@media(max-width:700px){.top{display:block}.student{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="brand">DataLab M.6<small>Data Cleaning &amp; Data Analysis</small></div><div class="progress">Mission 3 / 5</div></header>
+<main class="container">
+<div class="top"><div><h1>Mission 3: Missing Data</h1><p class="desc">ภารกิจจัดการข้อมูลที่หายไป — เลือกวิธีที่เหมาะสมโดยพิจารณาบริบท ไม่ใช่ใช้วิธีเดียวกับทุก Dataset</p></div><div class="student" id="studentInfo">กำลังโหลดข้อมูล...</div></div>
+
+<section class="card">
+<h2>สถานการณ์</h2>
+<p class="hint">โรงเรียนเก็บข้อมูลคะแนนสอบ เวลาอ่านหนังสือ และการมาเรียน แต่บางรายการขาดหาย นักเรียนต้องตัดสินใจว่าควรลบ แทนค่า หรือเก็บ Missing ไว้ โดยต้องอธิบายเหตุผล</p>
+<div class="wrap"><table>
+<thead><tr><th>รหัส</th><th>คะแนนสอบ</th><th>เวลาอ่านหนังสือ/สัปดาห์</th><th>การมาเรียน (%)</th><th>ชั่วโมงนอน</th></tr></thead>
+<tbody>
+<tr><td>S031</td><td>82</td><td>6</td><td>96</td><td>7</td></tr>
+<tr><td>S032</td><td>75</td><td>-</td><td>91</td><td>6</td></tr>
+<tr><td>S033</td><td>91</td><td>8</td><td>-</td><td>7</td></tr>
+<tr><td>S034</td><td>-</td><td>5</td><td>94</td><td>6</td></tr>
+<tr><td>S035</td><td>68</td><td>-</td><td>88</td><td>-</td></tr>
+<tr><td>S036</td><td>87</td><td>10</td><td>98</td><td>8</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="card">
+<h2>ตอนที่ 1 — ตัดสินใจจัดการ Missing Data</h2>
+<p class="hint">ทุกข้อจำเป็นต้องตอบ และควรพิจารณาบริบทของตัวแปรก่อนเลือกวิธี</p>
+<div class="grid">
+<div class="box"><label>1. S032 เวลาอ่านหนังสือหาย 1 ค่า</label><small>ถ้าต้องการวิเคราะห์แนวโน้มโดยรวมและข้อมูลส่วนใหญ่ครบ</small><select id="q1"><option value="">-- เลือกวิธี --</option><option value="median">แทนด้วยค่ามัธยฐาน/ค่ากลางที่เหมาะสม</option><option value="delete">ลบนักเรียนทั้งแถวทันที</option><option value="zero">แทนด้วย 0 เสมอ</option><option value="keep">ปล่อยว่างโดยไม่พิจารณา</option></select></div>
+<div class="box"><label>2. S033 การมาเรียนหาย</label><small>ข้อมูลการมาเรียนมีความหมายเฉพาะตัวของนักเรียน</small><select id="q2"><option value="">-- เลือกวิธี --</option><option value="source">ตรวจสอบแหล่งข้อมูลเดิมก่อนแทนค่า</option><option value="zero">แทนด้วย 0 ทันที</option><option value="mean">แทนด้วยค่าเฉลี่ยทันที</option><option value="random">สุ่มค่า</option></select></div>
+<div class="box"><label>3. S035 ชั่วโมงนอนหาย</label><small>ข้อมูลหายหลายตัวแปรในแถวเดียว</small><select id="q3"><option value="">-- เลือกวิธี --</option><option value="investigate">ตรวจสอบความครบถ้วนและพิจารณาว่าแถวนี้ยังเหมาะกับการวิเคราะห์หรือไม่</option><option value="zero">แทนทุกค่าที่หายด้วย 0</option><option value="random">สุ่มค่า</option><option value="ignore">ไม่ต้องตรวจสอบ</option></select></div>
+<div class="box"><label>4. หลักสำคัญก่อนแทน Missing Value</label><small>ข้อใดเหมาะสมที่สุด</small><select id="q4"><option value="">-- เลือกวิธี --</option><option value="context">พิจารณาชนิดข้อมูล บริบท และผลกระทบต่อการวิเคราะห์</option><option value="same">ใช้ค่าเฉลี่ยกับทุกตัวแปร</option><option value="zero">ใช้ 0 กับทุกตัวแปร</option><option value="deleteall">ลบทุกแถวที่มี Missing</option></select></div>
+</div>
+<div class="notice"><strong>คำเตือน:</strong> การแทน Missing ด้วยค่าเฉลี่ยไม่ได้ถูกต้องเสมอไป เพราะอาจลดความแปรปรวนหรือทำให้ผลวิเคราะห์คลาดเคลื่อน</div>
+</section>
+
+<section class="card">
+<h2>ตอนที่ 2 — อธิบายเหตุผล</h2>
+<p class="hint">ทุกข้อจำเป็นต้องตอบ <span style="color:#c62828">* อย่างน้อย 20 ตัวอักษรต่อข้อ</span></p>
+<label>5. เพราะเหตุใดจึงไม่ควรแทน Missing Value ทุกตัวด้วย 0? <span style="color:#c62828">*</span></label>
+<textarea id="r1" placeholder="อธิบายด้วยภาษาของตนเอง..."></textarea><br><br>
+<label>6. ถ้าข้อมูลคะแนนสอบหาย 30% ของทั้ง Dataset คุณจะตัดสินใจอย่างไรก่อนวิเคราะห์? <span style="color:#c62828">*</span></label>
+<textarea id="r2" placeholder="ระบุสิ่งที่ควรตรวจสอบและเหตุผล..."></textarea><br><br>
+<label>7. เปรียบเทียบ “การลบแถว” กับ “การแทนค่า” ว่ามีข้อดีหรือข้อจำกัดอย่างไร <span style="color:#c62828">*</span></label>
+<textarea id="r3" placeholder="เปรียบเทียบทั้งสองวิธี..."></textarea>
+<div class="error" id="error">กรุณาตอบทุกข้อ และคำตอบอธิบายต้องมีอย่างน้อย 20 ตัวอักษรต่อข้อ</div>
+</section>
+
+<div class="actions"><button class="back" onclick="location.href='mission2.html'">กลับ Mission 2</button><button class="submit" onclick="submitMission()">ส่ง Mission 3</button></div>
+<section class="card result" id="result"><h2>ส่ง Mission 3 สำเร็จ</h2><div class="score" id="score">--/15</div><p id="msg"></p><div class="actions"><button class="back" onclick="location.href='mission2.html'">กลับ Mission 2</button><button class="submit" onclick="location.href='mission4.html'">ไป Mission 4</button></div></section>
+</main>
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
+document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
+function submitMission(){
+ const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
+ const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
+ const ok=a.every(Boolean)&&r.every(x=>x.length>=20);
+ document.getElementById("error").style.display=ok?"none":"block";if(!ok)return;
+ const correct=["median","source","investigate","context"];
+ let objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
+ let writing=r.reduce((n,x)=>n+Math.min(2,Math.floor(x.length/60)),0);
+ const score=Math.min(15,objective*2+writing);
+ const attempts=Number(localStorage.getItem("datalab_mission3_attempts")||0)+1;
+ localStorage.setItem("datalab_mission3_attempts",attempts);
+ localStorage.setItem("datalab_mission3",JSON.stringify({score,answers:a,reasons:r}));
+ const payload={name:student?.name||"",room:student?.room||"",no:student?.no||"",mission1:"",mission2:"",mission3:score,mission4:"",mission5:"",total:score,fullScore:15,percent:Math.round(score/15*100),status:score>=9?"ผ่าน":"ต้องปรับปรุง",attempts,aiFeedback:"Mission 3 ตรวจเบื้องต้นเรื่อง Missing Data",strengths:objective>=3?"เลือกวิธีจัดการ Missing ได้เหมาะสม":"เริ่มวิเคราะห์วิธีจัดการ Missing ได้",improvements:writing<4?"ควรอธิบายเหตุผลและผลกระทบให้ชัดเจนขึ้น":"ควรเชื่อมโยงวิธีจัดการกับบริบทของข้อมูล",level:score>=13?"ดีมาก":score>=10?"ดี":score>=7?"กำลังพัฒนา":"เริ่มต้น",passed:score>=9?"ผ่าน":"ไม่ผ่าน"};
+fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+document.getElementById("score").textContent=`${score}/15`;document.getElementById("msg").textContent="บันทึกผล Mission 3 แล้ว และส่งข้อมูลไปยัง Google Sheets";document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+</script></body></html>
