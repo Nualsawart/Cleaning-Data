@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mission 4 | Data Analysis</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315efb,#6846d9);color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800}.brand small{display:block;font-size:.75rem;opacity:.85}.progress{background:#ffffff20;padding:9px 13px;border-radius:10px}
+.container{max-width:1100px;margin:auto;padding:30px 22px 60px}.top{display:flex;justify-content:space-between;gap:18px;margin-bottom:22px}.top h1{margin:0 0 7px;font-size:2rem}.desc{margin:0;color:#667085;line-height:1.6}.student{background:#fff;border:1px solid #e3e7ef;border-radius:12px;padding:11px 14px;color:#667085;font-size:.88rem}
+.card{background:#fff;border:1px solid #e3e7ef;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 8px 24px #1f2d3d0b}.card h2{font-size:1.15rem;margin:0 0 8px}.hint{color:#667085;line-height:1.65;font-size:.92rem}
+.wrap{overflow:auto;border:1px solid #e0e5ee;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:700px}th{background:#eef2ff;color:#263b9b;text-align:left;padding:11px;font-size:.86rem}td{padding:10px;border-top:1px solid #edf0f5;font-size:.87rem;text-align:center}td:first-child{text-align:left}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}.box{border:1px solid #e0e4ec;border-radius:13px;padding:15px}.box label{display:block;font-weight:700;margin-bottom:8px;font-size:.9rem}.box small{display:block;color:#7b8494;margin-bottom:9px;line-height:1.5}
+input,select,textarea{width:100%;border:1px solid #d5dbe6;border-radius:10px;padding:10px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:#315efb}textarea{min-height:115px;resize:vertical;line-height:1.6}
+.notice{padding:13px 15px;background:#f7f8ff;border-left:4px solid #315efb;border-radius:8px;color:#475467;margin-top:15px;line-height:1.6}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}button{border:0;border-radius:11px;padding:13px 20px;font-weight:800;cursor:pointer}.back{background:#eef1f6;color:#344054}.submit{background:#315efb;color:#fff}
+.error{display:none;color:#c62828;font-size:.86rem;margin-top:12px}.result{display:none;background:#f7f8ff;border-color:#cfd8ff}.score{font-size:2rem;font-weight:900;color:#315efb}
+@media(max-width:700px){.top{display:block}.student{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="brand">DataLab M.6<small>Data Cleaning &amp; Data Analysis</small></div><div class="progress">Mission 4 / 5</div></header>
+<main class="container">
+<div class="top"><div><h1>Mission 4: Data Analysis</h1><p class="desc">ภารกิจวิเคราะห์ข้อมูล — คำนวณ เปรียบเทียบ และตีความผลก่อนนำไปใช้ตัดสินใจ</p></div><div class="student" id="studentInfo">กำลังโหลดข้อมูล...</div></div>
+
+<section class="card">
+<h2>สถานการณ์</h2>
+<p class="hint">หลังทำความสะอาดข้อมูลแล้ว โรงเรียนต้องการเปรียบเทียบคะแนนสอบของนักเรียน 2 กลุ่ม เพื่อดูว่าข้อมูลบอกอะไรเราได้บ้าง</p>
+<div class="wrap"><table>
+<thead><tr><th>นักเรียน</th><th>กลุ่ม</th><th>คะแนนก่อนเรียน</th><th>คะแนนหลังเรียน</th></tr></thead>
+<tbody>
+<tr><td>S041</td><td>A</td><td>58</td><td>72</td></tr><tr><td>S042</td><td>A</td><td>65</td><td>80</td></tr>
+<tr><td>S043</td><td>A</td><td>70</td><td>84</td></tr><tr><td>S044</td><td>A</td><td>55</td><td>69</td></tr>
+<tr><td>S045</td><td>A</td><td>62</td><td>77</td></tr><tr><td>S046</td><td>B</td><td>60</td><td>68</td></tr>
+<tr><td>S047</td><td>B</td><td>72</td><td>79</td></tr><tr><td>S048</td><td>B</td><td>68</td><td>74</td></tr>
+<tr><td>S049</td><td>B</td><td>50</td><td>61</td></tr><tr><td>S050</td><td>B</td><td>65</td><td>73</td></tr>
+</tbody></table></div>
+<div class="notice"><strong>ข้อมูลที่ควรรู้:</strong> คะแนนเต็ม 100 คะแนน นักเรียนต้องใช้ข้อมูลหลังเรียนเป็นหลักในการวิเคราะห์ผล และควรพิจารณาการเปลี่ยนแปลงจากก่อนเรียนร่วมด้วย</div>
+</section>
+
+<section class="card">
+<h2>ตอนที่ 1 — คำนวณและตรวจสอบข้อมูล</h2>
+<p class="hint">ทุกข้อที่มี * ต้องตอบ ระบบจะช่วยตรวจความถูกต้องเบื้องต้น</p>
+<div class="grid">
+<div class="box"><label>1. ค่าเฉลี่ยคะแนนหลังเรียนของกลุ่ม A *</label><small>ตอบเป็นตัวเลข ทศนิยมได้</small><input id="q1" type="number" step="0.01" placeholder="เช่น 76.4"></div>
+<div class="box"><label>2. ค่าเฉลี่ยคะแนนหลังเรียนของกลุ่ม B *</label><small>ตอบเป็นตัวเลข ทศนิยมได้</small><input id="q2" type="number" step="0.01" placeholder="เช่น 71.0"></div>
+<div class="box"><label>3. กลุ่มใดมีค่าเฉลี่ยหลังเรียนสูงกว่า *</label><select id="q3"><option value="">-- เลือก --</option><option value="A">กลุ่ม A</option><option value="B">กลุ่ม B</option><option value="equal">เท่ากัน</option></select></div>
+<div class="box"><label>4. คะแนนเฉลี่ยของกลุ่ม A เพิ่มขึ้นจากก่อนเรียนประมาณกี่คะแนน *</label><small>คำนวณจากค่าเฉลี่ยก่อนเรียนและหลังเรียน</small><input id="q4" type="number" step="0.01" placeholder="จำนวนคะแนน"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>ตอนที่ 2 — ตีความข้อมูลแบบ Data Analyst</h2>
+<p class="hint">ทุกข้อจำเป็นต้องตอบ <span style="color:#c62828">* อย่างน้อย 20 ตัวอักษรต่อข้อ</span></p>
+<label>5. จากข้อมูลนี้ นักเรียนสรุปแนวโน้มของกลุ่ม A และ B อย่างไร? *</label>
+<textarea id="r1" placeholder="อย่าเพียงบอกว่ากลุ่มไหนสูงกว่า ให้ใช้ข้อมูลสนับสนุนข้อสรุป"></textarea><br><br>
+<label>6. หากครูถามว่า “คะแนนหลังเรียนสูงขึ้น แปลว่าการสอนทำให้คะแนนสูงขึ้นแน่นอนหรือไม่” นักเรียนจะตอบอย่างไร? *</label>
+<textarea id="r2" placeholder="พิจารณาปัจจัยอื่นและข้อจำกัดของข้อมูล"></textarea><br><br>
+<label>7. เสนอการวิเคราะห์เพิ่มเติม 1 อย่างที่ควรทำก่อนนำข้อมูลไปตัดสินใจจริง พร้อมเหตุผล *</label>
+<textarea id="r3" placeholder="เช่น วิเคราะห์การกระจายของคะแนน เปรียบเทียบรายบุคคล หรือหาข้อมูลเพิ่มเติม"></textarea>
+<div class="error" id="error">กรุณาตอบข้อ 1–4 ให้ครบ และคำตอบอธิบายข้อ 5–7 ต้องมีอย่างน้อย 20 ตัวอักษร</div>
+</section>
+
+<div class="actions"><button class="back" onclick="location.href='mission3.html'">กลับ Mission 3</button><button class="submit" onclick="submitMission()">ส่ง Mission 4</button></div>
+
+<section class="card result" id="result"><h2>ส่ง Mission 4 สำเร็จ</h2><div class="score" id="score">--/20</div><p id="msg"></p><div class="actions"><button class="back" onclick="location.href='mission3.html'">กลับ Mission 3</button><button class="submit" onclick="location.href='mission5.html'">ไป Mission 5</button></div></section>
+</main>
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
+document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
+
+function submitMission(){
+ const q1=Number(document.getElementById("q1").value),q2=Number(document.getElementById("q2").value),q3=document.getElementById("q3").value,q4=Number(document.getElementById("q4").value);
+ const r=[1,2,3].map(i=>document.getElementById("r"+i).value.trim());
+ const ok=[q1,q2,q4].every(x=>Number.isFinite(x)&&x!==0)&&Boolean(q3)&&r.every(x=>x.length>=20);
+ document.getElementById("error").style.display=ok?"none":"block";if(!ok)return;
+ const correct=[76.4,71.0,"A",15];
+ let objective=0;
+ if(Math.abs(q1-correct[0])<=0.11)objective++;
+ if(Math.abs(q2-correct[1])<=0.11)objective++;
+ if(q3===correct[2])objective++;
+ if(Math.abs(q4-correct[3])<=0.11)objective++;
+ const writing=Math.min(8,r.reduce((n,x)=>n+Math.min(3,Math.floor(x.length/70)),0));
+ const score=Math.min(20,objective*3+writing);
+ const attempts=Number(localStorage.getItem("datalab_mission4_attempts")||0)+1;
+ localStorage.setItem("datalab_mission4_attempts",attempts);
+ localStorage.setItem("datalab_mission4",JSON.stringify({score,answers:[q1,q2,q3,q4],reasons:r}));
+ const payload={name:student?.name||"",room:student?.room||"",no:student?.no||"",mission1:"",mission2:"",mission3:"",mission4:score,mission5:"",total:score,fullScore:20,percent:Math.round(score/20*100),status:score>=12?"ผ่าน":"ต้องปรับปรุง",attempts,aiFeedback:"Mission 4 ตรวจเบื้องต้นด้านการคำนวณและการตีความข้อมูล",strengths:objective>=3?"คำนวณและอ่านแนวโน้มข้อมูลได้ดี":"เริ่มวิเคราะห์ข้อมูลและคำนวณค่าเฉลี่ยได้",improvements:objective<4?"ควรตรวจสอบการคำนวณค่าเฉลี่ยและการเปลี่ยนแปลงของคะแนน":"ควรอธิบายข้อจำกัดของข้อมูลและเสนอการวิเคราะห์เพิ่มเติม",level:score>=17?"ดีมาก":score>=14?"ดี":score>=10?"กำลังพัฒนา":"เริ่มต้น",passed:score>=12?"ผ่าน":"ไม่ผ่าน"};
+fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+document.getElementById("score").textContent=`${score}/20`;document.getElementById("msg").textContent="บันทึกผล Mission 4 แล้ว และส่งข้อมูลไปยัง Google Sheets";document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+</script></body></html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mission 5 | Data Analyst Challenge</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315efb,#6846d9);color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800}.brand small{display:block;font-size:.75rem;opacity:.85}.progress{background:#ffffff20;padding:9px 13px;border-radius:10px}
+.container{max-width:1150px;margin:auto;padding:30px 22px 60px}.top{display:flex;justify-content:space-between;gap:18px;margin-bottom:22px}.top h1{margin:0 0 7px;font-size:2rem}.desc{margin:0;color:#667085;line-height:1.6}.student{background:#fff;border:1px solid #e3e7ef;border-radius:12px;padding:11px 14px;color:#667085;font-size:.88rem}
+.card{background:#fff;border:1px solid #e3e7ef;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 8px 24px #1f2d3d0b}.card h2{font-size:1.15rem;margin:0 0 8px}.hint{color:#667085;line-height:1.65;font-size:.92rem}
+.wrap{overflow:auto;border:1px solid #e0e5ee;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:900px}th{background:#eef2ff;color:#263b9b;text-align:left;padding:11px;font-size:.84rem}td{padding:9px;border-top:1px solid #edf0f5;font-size:.84rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}.box{border:1px solid #e0e4ec;border-radius:13px;padding:15px}.box label{display:block;font-weight:700;margin-bottom:8px;font-size:.9rem}
+select,textarea,input{width:100%;border:1px solid #d5dbe6;border-radius:10px;padding:10px;font:inherit;outline:none}select:focus,textarea:focus,input:focus{border-color:#315efb}textarea{min-height:120px;resize:vertical;line-height:1.6}
+.notice{padding:14px 16px;background:#f7f8ff;border-left:4px solid #315efb;border-radius:8px;color:#475467;margin-top:15px;line-height:1.65}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}button{border:0;border-radius:11px;padding:13px 20px;font-weight:800;cursor:pointer}.back{background:#eef1f6;color:#344054}.submit{background:#315efb;color:#fff}
+.error{display:none;color:#c62828;font-size:.86rem;margin-top:12px}.result{display:none;background:#f7f8ff;border-color:#cfd8ff}.score{font-size:2.2rem;font-weight:900;color:#315efb}
+.done{padding:18px;background:#eef8f1;border:1px solid #c8e6d0;border-radius:12px;color:#245b35;line-height:1.6;margin-top:16px}
+@media(max-width:700px){.top{display:block}.student{display:inline-block;margin-top:12px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="brand">DataLab M.6<small>Data Cleaning &amp; Data Analysis</small></div><div class="progress">Mission 5 / 5</div></header>
+<main class="container">
+<div class="top"><div><h1>Mission 5: Data Analyst Challenge</h1><p class="desc">ภารกิจสุดท้าย — ใช้กระบวนการทั้งหมดตั้งแต่ตรวจสอบข้อมูลจนถึงสรุปเพื่อการตัดสินใจ</p></div><div class="student" id="studentInfo">กำลังโหลดข้อมูล...</div></div>
+
+<section class="card">
+<h2>สถานการณ์จริง</h2>
+<p class="hint">
+โรงเรียนต้องการวิเคราะห์ข้อมูลการใช้ไฟฟ้าของห้องเรียน เพื่อวางแผนลดการใช้พลังงาน
+ข้อมูลถูกรวบรวมจากหลายห้องและหลายวัน นักเรียนได้รับหน้าที่เป็น Data Analyst
+ต้องตรวจสอบความผิดปกติ ทำความสะอาด วิเคราะห์ และเสนอข้อสรุป
+</p>
+<div class="wrap"><table>
+<thead><tr><th>วันที่</th><th>ห้อง</th><th>จำนวนคน</th><th>ชั่วโมงเปิดแอร์</th><th>หน่วยไฟฟ้า (kWh)</th><th>ค่าใช้ไฟ (บาท)</th></tr></thead>
+<tbody>
+<tr><td>01/09/2026</td><td>6/1</td><td>36</td><td>6</td><td>42</td><td>168</td></tr>
+<tr><td>02/09/2026</td><td>6/1</td><td>36</td><td>7</td><td>48</td><td>192</td></tr>
+<tr><td>03/09/2026</td><td>6/1</td><td>36</td><td>6</td><td>44</td><td>176</td></tr>
+<tr><td>04/09/2026</td><td>6/1</td><td>36</td><td>-</td><td>46</td><td>184</td></tr>
+<tr><td>05/09/2026</td><td>6/1</td><td>36</td><td>7</td><td>47</td><td>188</td></tr>
+<tr><td>01/09/2026</td><td>6/2</td><td>39</td><td>6</td><td>50</td><td>200</td></tr>
+<tr><td>02/09/2026</td><td>6/2</td><td>39</td><td>6</td><td>51</td><td>204</td></tr>
+<tr><td>03/09/2026</td><td>6/2</td><td>39</td><td>8</td><td>66</td><td>264</td></tr>
+<tr><td>04/09/2026</td><td>6/2</td><td>39</td><td>7</td><td>58</td><td>232</td></tr>
+<tr><td>05/09/2026</td><td>6/2</td><td>39</td><td>7</td><td>59</td><td>236</td></tr>
+<tr><td>01/09/2026</td><td>6/3</td><td>40</td><td>6</td><td>43</td><td>172</td></tr>
+<tr><td>02/09/2026</td><td>6/3</td><td>40</td><td>6</td><td>44</td><td>176</td></tr>
+<tr><td>03/09/2026</td><td>6/3</td><td>40</td><td>6</td><td>45</td><td>180</td></tr>
+<tr><td>04/09/2026</td><td>6/3</td><td>40</td><td>6</td><td>43</td><td>172</td></tr>
+<tr><td>05/09/2026</td><td>6/3</td><td>40</td><td>6</td><td>44</td><td>176</td></tr>
+</tbody></table></div>
+<div class="notice"><strong>ภารกิจ:</strong> อย่ารีบสรุปจากตัวเลขเพียงจุดเดียว ต้องตรวจสอบคุณภาพข้อมูลก่อน แล้วจึงใช้ข้อมูลที่ผ่านการทำความสะอาดมาวิเคราะห์</div>
+</section>
+
+<section class="card">
+<h2>ขั้นที่ 1 — ตรวจสอบและทำความสะอาดข้อมูล</h2>
+<p class="hint">เลือกคำตอบที่เหมาะสมที่สุด</p>
+<div class="grid">
+<div class="box"><label>1. พบชั่วโมงเปิดแอร์ของห้อง 6/1 วันที่ 04/09 เป็น “-” ควรทำอย่างไร? *</label><select id="q1"><option value="">-- เลือก --</option><option value="source">ตรวจสอบแหล่งข้อมูลเดิมก่อนตัดสินใจแทนค่า</option><option value="zero">แทนด้วย 0</option><option value="delete">ลบทั้ง Dataset</option><option value="random">สุ่มค่า</option></select></div>
+<div class="box"><label>2. ขั้นตอนใดควรทำก่อนคำนวณค่าเฉลี่ยการใช้ไฟ? *</label><select id="q2"><option value="">-- เลือก --</option><option value="clean">ตรวจสอบและทำความสะอาดข้อมูล</option><option value="chart">สร้างกราฟทันที</option><option value="conclusion">เขียนข้อสรุปก่อน</option><option value="ignore">ข้ามการตรวจสอบ</option></select></div>
+<div class="box"><label>3. ห้องใดมีข้อมูลที่ควรตรวจสอบเพิ่มเติมเรื่องการใช้ไฟเมื่อเทียบกับชั่วโมงเปิดแอร์? *</label><select id="q3"><option value="">-- เลือก --</option><option value="61">6/1</option><option value="62">6/2</option><option value="63">6/3</option><option value="none">ไม่มี</option></select></div>
+<div class="box"><label>4. ตัวแปรใดเหมาะสำหรับใช้เปรียบเทียบประสิทธิภาพการใช้ไฟระหว่างห้องที่มีจำนวนคนต่างกัน? *</label><select id="q4"><option value="">-- เลือก --</option><option value="perperson">หน่วยไฟฟ้าต่อจำนวนคน</option><option value="total">หน่วยไฟฟ้ารวมอย่างเดียว</option><option value="date">วันที่</option><option value="room">หมายเลขห้อง</option></select></div>
+</div>
+</section>
+
+<section class="card">
+<h2>ขั้นที่ 2 — วิเคราะห์และสรุป</h2>
+<p class="hint">ทุกข้อจำเป็นต้องตอบ <span style="color:#c62828">* อย่างน้อย 20 ตัวอักษรต่อข้อ</span></p>
+<label>5. ระบุปัญหาข้อมูลที่พบอย่างน้อย 1 จุด และอธิบายว่าคุณจะจัดการอย่างไร *</label>
+<textarea id="r1" placeholder="ระบุข้อมูล/แถวที่มีปัญหา พร้อมวิธีจัดการและเหตุผล"></textarea><br><br>
+<label>6. จากข้อมูลที่มี นักเรียนเห็นแนวโน้มอะไรเกี่ยวกับ “ชั่วโมงเปิดแอร์” กับ “หน่วยไฟฟ้า” หรือไม่? อธิบายโดยใช้ข้อมูลสนับสนุน *</label>
+<textarea id="r2" placeholder="อย่าเพียงตอบว่าเพิ่มขึ้นหรือลดลง ให้ยกข้อมูลมาสนับสนุน"></textarea><br><br>
+<label>7. ถ้าคุณเป็น Data Analyst ของโรงเรียน คุณจะเสนอแนวทางลดการใช้ไฟอย่างไร และควรเก็บข้อมูลอะไรเพิ่มก่อนตัดสินใจ? *</label>
+<textarea id="r3" placeholder="เสนอแนวทางพร้อมเหตุผลและข้อมูลที่ควรเก็บเพิ่ม"></textarea>
+<div class="error" id="error">กรุณาตอบข้อ 1–4 ให้ครบ และคำตอบข้อ 5–7 ต้องมีอย่างน้อย 20 ตัวอักษรต่อข้อ</div>
+</section>
+
+<section class="card">
+<h2>ขั้นที่ 3 — ข้อสรุปของ Data Analyst</h2>
+<p class="hint">เขียนข้อสรุปสั้น ๆ 3–5 ประโยค โดยเชื่อม “คุณภาพข้อมูล → การวิเคราะห์ → การตัดสินใจ” *</p>
+<textarea id="summary" placeholder="สรุปผลการวิเคราะห์ด้วยภาษาของตนเอง"></textarea>
+</section>
+
+<div class="actions"><button class="back" onclick="location.href='mission4.html'">กลับ Mission 4</button><button class="submit" onclick="submitMission()">ส่งภารกิจสุดท้าย</button></div>
+
+<section class="card result" id="result">
+<h2>ส่ง Mission 5 สำเร็จ</h2><div class="score" id="score">--/30</div><div class="done" id="msg"></div>
+<div class="actions"><button class="back" onclick="location.href='mission4.html'">กลับ Mission 4</button><button class="submit" onclick="location.href='index.html'">กลับหน้าแรก</button></div>
+</section>
+</main>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
+document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
+
+function submitMission(){
+ const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
+ const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
+ const summary=document.getElementById("summary").value.trim();
+ const ok=a.every(Boolean)&&r.every(x=>x.length>=20)&&summary.length>=20;
+ document.getElementById("error").style.display=ok?"none":"block";
+ if(!ok){document.getElementById("error").textContent="กรุณาตอบข้อ 1–4 ให้ครบ และคำตอบข้อ 5–7 รวมถึงข้อสรุป ต้องมีอย่างน้อย 20 ตัวอักษร";return;}
+
+ const correct=["source","clean","62","perperson"];
+ let objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
+ let writing=Math.min(18, r.reduce((n,x)=>n+Math.min(6,Math.floor(x.length/55)),0)+Math.min(4,Math.floor(summary.length/70)));
+ const score=Math.min(30,objective*3+writing);
+ const attempts=Number(localStorage.getItem("datalab_mission5_attempts")||0)+1;
+ localStorage.setItem("datalab_mission5_attempts",attempts);
+ localStorage.setItem("datalab_mission5",JSON.stringify({score,answers:a,reasons:r,summary}));
+
+ const payload={
+ name:student?.name||"",room:student?.room||"",no:student?.no||"",
+ mission1:"",mission2:"",mission3:"",mission4:"",mission5:score,
+ total:score,fullScore:30,percent:Math.round(score/30*100),
+ status:score>=18?"ผ่าน":"ต้องปรับปรุง",attempts,
+ aiFeedback:"Mission 5 ตรวจเบื้องต้นด้าน Data Cleaning, Data Analysis และข้อสรุป",
+ strengths:objective>=3?"ตรวจสอบกระบวนการวิเคราะห์ข้อมูลได้ดี":"สามารถเริ่มวางขั้นตอนการวิเคราะห์ข้อมูลได้",
+ improvements:objective<4?"ควรตรวจสอบคุณภาพข้อมูลก่อนสรุปผลให้ละเอียดขึ้น":"ควรเพิ่มหลักฐานจากข้อมูลและพิจารณาข้อมูลที่ควรเก็บเพิ่ม",
+ level:score>=25?"ดีมาก":score>=21?"ดี":score>=15?"กำลังพัฒนา":"เริ่มต้น",
+ passed:score>=18?"ผ่าน":"ไม่ผ่าน"
+ };
+ fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+
+ document.getElementById("score").textContent=`${score}/30`;
+ document.getElementById("msg").innerHTML=`<strong>ทำครบทั้ง 5 ภารกิจแล้ว</strong><br>คะแนน Mission 5: ${score}/30<br>ผลเบื้องต้น: ${score>=18?"ผ่าน":"ควรทบทวนและปรับปรุง"}<br><br>ข้อมูลถูกส่งไปยัง Google Sheets แล้ว`;
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body></html>
