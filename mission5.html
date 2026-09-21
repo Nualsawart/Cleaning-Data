@@ -107,7 +107,7 @@ function submitMission(){
   const score=Math.min(30,objective*3+writing);
   const fullScore=30;
   const percent=Math.round(score/fullScore*10000)/100;
-  const missionPassed=percent>=70;
+  const missionPassed=percent>=50;
   const student=JSON.parse(localStorage.getItem("datalab_student")||"{}");
   if(!student.name||!student.room||!student.no){
     alert("กรุณากลับไปกรอกชื่อ ห้อง และเลขที่ก่อน");
@@ -128,8 +128,8 @@ function submitMission(){
       <h2>${missionPassed?"ทำสำเร็จ":"ยังไม่ผ่าน"}</h2>
       <div style="font-size:28px;font-weight:800">${score} / 30 คะแนน</div>
       <div style="font-size:22px;margin:8px 0">${percent}%</div>
-      <div style="font-weight:700">${missionPassed?"สถานะ: ผ่าน":"สถานะ: ไม่ผ่าน"}</div>
-      <p>${missionPassed?"สามารถไปทำภารกิจถัดไปได้":"ให้ทำ Mission นี้อีกครั้ง เพื่อพัฒนาความเข้าใจ"}</p>
+      <div style="font-weight:700">${missionPassed?"สถานะ: ผ่าน (เกณฑ์ Mission 5 = 50%)":"สถานะ: ไม่ผ่าน (เกณฑ์ Mission 5 = 50%)"}</div>
+      <p>${missionPassed?"สามารถไปทำภารกิจถัดไปได้":"ให้ทำ Mission นี้อีกครั้ง เพื่อพัฒนาความเข้าใจ"}</p><small>Mission 5 ผ่านเมื่อได้อย่างน้อย 15/30 คะแนน (50%)</small>
       ${missionPassed?'<button type="button" onclick="location.href=\'index.html\'">ไป Mission ถัดไป</button>':'<button type="button" onclick="location.reload()">ทำ Mission นี้อีกครั้ง</button>'}
     </div>`;
     result.scrollIntoView({behavior:"smooth"});
