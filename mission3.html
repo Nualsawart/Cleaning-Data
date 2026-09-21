@@ -69,19 +69,43 @@ const API_URL="https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdia
 const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
 document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
 function submitMission(){
- const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
- const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
- const ok=a.every(Boolean)&&r.every(x=>x.length>=20);
- document.getElementById("error").style.display=ok?"none":"block";if(!ok)return;
- const correct=["median","source","investigate","context"];
- let objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
- let writing=r.reduce((n,x)=>n+Math.min(2,Math.floor(x.length/60)),0);
- const score=Math.min(15,objective*2+writing);
- const attempts=Number(localStorage.getItem("datalab_mission3_attempts")||0)+1;
- localStorage.setItem("datalab_mission3_attempts",attempts);
- localStorage.setItem("datalab_mission3",JSON.stringify({score,answers:a,reasons:r}));
- const payload={name:student?.name||"",room:student?.room||"",no:student?.no||"",mission1:"",mission2:"",mission3:score,mission4:"",mission5:"",total:score,fullScore:15,percent:Math.round(score/15*100),status:score>=9?"ผ่าน":"ต้องปรับปรุง",attempts,aiFeedback:"Mission 3 ตรวจเบื้องต้นเรื่อง Missing Data",strengths:objective>=3?"เลือกวิธีจัดการ Missing ได้เหมาะสม":"เริ่มวิเคราะห์วิธีจัดการ Missing ได้",improvements:writing<4?"ควรอธิบายเหตุผลและผลกระทบให้ชัดเจนขึ้น":"ควรเชื่อมโยงวิธีจัดการกับบริบทของข้อมูล",level:score>=13?"ดีมาก":score>=10?"ดี":score>=7?"กำลังพัฒนา":"เริ่มต้น",passed:score>=9?"ผ่าน":"ไม่ผ่าน"};
-fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-document.getElementById("score").textContent=`${score}/15`;document.getElementById("msg").textContent="บันทึกผล Mission 3 แล้ว และส่งข้อมูลไปยัง Google Sheets";document.getElementById("result").style.display="block";document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
+  const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
+  const ok=a.every(Boolean)&&r.every(x=>x.length>=20);
+  document.getElementById("error").style.display=ok?"none":"block";
+  if(!ok)return;
+  const correct=["median","source","investigate","context"];
+  const objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
+  const writing=r.reduce((n,x)=>n+Math.min(2,Math.floor(x.length/60)),0);
+  const score=Math.min(15,objective*2+writing);
+  const fullScore=15;
+  const percent=Math.round(score/fullScore*10000)/100;
+  const missionPassed=percent>=70;
+  const student=JSON.parse(localStorage.getItem("datalab_student")||"{}");
+  if(!student.name||!student.room||!student.no){
+    alert("กรุณากลับไปกรอกชื่อ ห้อง และเลขที่ก่อน");
+    location.href="index.html";
+    return;
+  }
+  const payload={name:student.name,room:student.room,no:student.no,mission:"mission3",score:score};
+  fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(console.error);
+  localStorage.setItem("datalab_mission3",JSON.stringify({score,percent}));
+  const result=document.getElementById("result");
+  const msg=document.getElementById("msg");
+  const scoreEl=document.getElementById("score");
+  if(scoreEl)scoreEl.textContent=`${score}/15`;
+  if(msg)msg.textContent=missionPassed?"ทำสำเร็จแล้ว — สามารถไปภารกิจถัดไปได้":"ยังไม่ผ่าน — ให้ทำ Mission นี้อีกครั้ง";
+  if(result){
+    result.style.display="block";
+    result.innerHTML=`<div style="padding:24px;border-radius:18px;border:2px solid ${missionPassed?"#22c55e":"#ef4444"};background:#fff;text-align:center">
+      <h2>${missionPassed?"ทำสำเร็จ":"ยังไม่ผ่าน"}</h2>
+      <div style="font-size:28px;font-weight:800">${score} / 15 คะแนน</div>
+      <div style="font-size:22px;margin:8px 0">${percent}%</div>
+      <div style="font-weight:700">${missionPassed?"สถานะ: ผ่าน":"สถานะ: ไม่ผ่าน"}</div>
+      <p>${missionPassed?"สามารถไปทำภารกิจถัดไปได้":"ให้ทำ Mission นี้อีกครั้ง เพื่อพัฒนาความเข้าใจ"}</p>
+      ${missionPassed?'<button type="button" onclick="location.href=\'mission4.html\'">ไป Mission ถัดไป</button>':'<button type="button" onclick="location.reload()">ทำ Mission นี้อีกครั้ง</button>'}
+    </div>`;
+    result.scrollIntoView({behavior:"smooth"});
+  }
 }
 </script></body></html>
