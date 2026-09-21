@@ -95,38 +95,45 @@ const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
 document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
 
 function submitMission(){
- const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
- const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
- const summary=document.getElementById("summary").value.trim();
- const ok=a.every(Boolean)&&r.every(x=>x.length>=20)&&summary.length>=20;
- document.getElementById("error").style.display=ok?"none":"block";
- if(!ok){document.getElementById("error").textContent="กรุณาตอบข้อ 1–4 ให้ครบ และคำตอบข้อ 5–7 รวมถึงข้อสรุป ต้องมีอย่างน้อย 20 ตัวอักษร";return;}
-
- const correct=["source","clean","62","perperson"];
- let objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
- let writing=Math.min(18, r.reduce((n,x)=>n+Math.min(6,Math.floor(x.length/55)),0)+Math.min(4,Math.floor(summary.length/70)));
- const score=Math.min(30,objective*3+writing);
- const attempts=Number(localStorage.getItem("datalab_mission5_attempts")||0)+1;
- localStorage.setItem("datalab_mission5_attempts",attempts);
- localStorage.setItem("datalab_mission5",JSON.stringify({score,answers:a,reasons:r,summary}));
-
- const payload={
- name:student?.name||"",room:student?.room||"",no:student?.no||"",
- mission1:"",mission2:"",mission3:"",mission4:"",mission5:score,
- total:score,fullScore:30,percent:Math.round(score/30*100),
- status:score>=18?"ผ่าน":"ต้องปรับปรุง",attempts,
- aiFeedback:"Mission 5 ตรวจเบื้องต้นด้าน Data Cleaning, Data Analysis และข้อสรุป",
- strengths:objective>=3?"ตรวจสอบกระบวนการวิเคราะห์ข้อมูลได้ดี":"สามารถเริ่มวางขั้นตอนการวิเคราะห์ข้อมูลได้",
- improvements:objective<4?"ควรตรวจสอบคุณภาพข้อมูลก่อนสรุปผลให้ละเอียดขึ้น":"ควรเพิ่มหลักฐานจากข้อมูลและพิจารณาข้อมูลที่ควรเก็บเพิ่ม",
- level:score>=25?"ดีมาก":score>=21?"ดี":score>=15?"กำลังพัฒนา":"เริ่มต้น",
- passed:score>=18?"ผ่าน":"ไม่ผ่าน"
- };
- fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-
- document.getElementById("score").textContent=`${score}/30`;
- document.getElementById("msg").innerHTML=`<strong>ทำครบทั้ง 5 ภารกิจแล้ว</strong><br>คะแนน Mission 5: ${score}/30<br>ผลเบื้องต้น: ${score>=18?"ผ่าน":"ควรทบทวนและปรับปรุง"}<br><br>ข้อมูลถูกส่งไปยัง Google Sheets แล้ว`;
- document.getElementById("result").style.display="block";
- document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  const a=["q1","q2","q3","q4"].map(id=>document.getElementById(id).value);
+  const r=["r1","r2","r3"].map(id=>document.getElementById(id).value.trim());
+  const summary=document.getElementById("summary").value.trim();
+  const ok=a.every(Boolean)&&r.every(x=>x.length>=20)&&summary.length>=20;
+  document.getElementById("error").style.display=ok?"none":"block";
+  if(!ok)return;
+  const correct=["source","clean","62","perperson"];
+  const objective=a.reduce((n,v,i)=>n+(v===correct[i]?1:0),0);
+  const writing=Math.min(18,r.reduce((n,x)=>n+Math.min(6,Math.floor(x.length/55)),0)+Math.min(4,Math.floor(summary.length/70)));
+  const score=Math.min(30,objective*3+writing);
+  const fullScore=30;
+  const percent=Math.round(score/fullScore*10000)/100;
+  const missionPassed=percent>=70;
+  const student=JSON.parse(localStorage.getItem("datalab_student")||"{}");
+  if(!student.name||!student.room||!student.no){
+    alert("กรุณากลับไปกรอกชื่อ ห้อง และเลขที่ก่อน");
+    location.href="index.html";
+    return;
+  }
+  const payload={name:student.name,room:student.room,no:student.no,mission:"mission5",score:score};
+  fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(console.error);
+  localStorage.setItem("datalab_mission5",JSON.stringify({score,percent}));
+  const result=document.getElementById("result");
+  const msg=document.getElementById("msg");
+  const scoreEl=document.getElementById("score");
+  if(scoreEl)scoreEl.textContent=`${score}/30`;
+  if(msg)msg.textContent=missionPassed?"ทำสำเร็จแล้ว — สามารถไปภารกิจถัดไปได้":"ยังไม่ผ่าน — ให้ทำ Mission นี้อีกครั้ง";
+  if(result){
+    result.style.display="block";
+    result.innerHTML=`<div style="padding:24px;border-radius:18px;border:2px solid ${missionPassed?"#22c55e":"#ef4444"};background:#fff;text-align:center">
+      <h2>${missionPassed?"ทำสำเร็จ":"ยังไม่ผ่าน"}</h2>
+      <div style="font-size:28px;font-weight:800">${score} / 30 คะแนน</div>
+      <div style="font-size:22px;margin:8px 0">${percent}%</div>
+      <div style="font-weight:700">${missionPassed?"สถานะ: ผ่าน":"สถานะ: ไม่ผ่าน"}</div>
+      <p>${missionPassed?"สามารถไปทำภารกิจถัดไปได้":"ให้ทำ Mission นี้อีกครั้ง เพื่อพัฒนาความเข้าใจ"}</p>
+      ${missionPassed?'<button type="button" onclick="location.href=\'index.html\'">ไป Mission ถัดไป</button>':'<button type="button" onclick="location.reload()">ทำ Mission นี้อีกครั้ง</button>'}
+    </div>`;
+    result.scrollIntoView({behavior:"smooth"});
+  }
 }
 </script>
 </body></html>
