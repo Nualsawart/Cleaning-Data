@@ -1,282 +1,352 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DataLab M.6 | Data Cleaning & Data Analysis</title>
-  <meta name="description" content="ภารกิจ Data Cleaning & Data Analysis สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 6">
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-    }
-    .header {
-      background: linear-gradient(135deg, #315efb, #6846d9);
-      color: white;
-      padding: 18px 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .brand { font-weight: 800; font-size: 1.25rem; }
-    .brand small { display: block; font-size: .78rem; opacity: .85; font-weight: 500; margin-top: 3px; }
-    .teacher-link {
-      color: white;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,.5);
-      padding: 9px 15px;
-      border-radius: 10px;
-      font-size: .9rem;
-    }
-    .hero {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 55px 24px 35px;
-      text-align: center;
-    }
-    .badge {
-      display: inline-block;
-      background: #e9edff;
-      color: #315efb;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: .86rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.12;
-      letter-spacing: -.04em;
-    }
-    .subtitle {
-      max-width: 760px;
-      margin: 18px auto 0;
-      color: #667085;
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-    .main {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 24px 60px;
-    }
-    .card {
-      background: white;
-      border: 1px solid #e6e9f0;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(31, 45, 61, .07);
-    }
-    .student-card {
-      max-width: 760px;
-      margin: 0 auto 32px;
-      padding: 28px;
-    }
-    .card-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 5px; }
-    .card-note { color: #7b8494; font-size: .9rem; margin-bottom: 22px; }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 14px;
-    }
-    label { display: block; font-weight: 700; font-size: .88rem; margin-bottom: 7px; }
-    input, select {
-      width: 100%;
-      border: 1px solid #d9deea;
-      border-radius: 11px;
-      padding: 12px 13px;
-      font-size: 1rem;
-      outline: none;
-      background: #fff;
-    }
-    input:focus, select:focus { border-color: #315efb; box-shadow: 0 0 0 3px #315efb18; }
-    .start-btn {
-      width: 100%;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 12px;
-      padding: 14px;
-      background: #315efb;
-      color: white;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s;
-    }
-    .start-btn:hover { background: #244bd5; transform: translateY(-1px); }
-    .missions-title {
-      text-align: center;
-      margin: 35px 0 18px;
-      font-size: 1.55rem;
-      font-weight: 800;
-    }
-    .missions {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
-    }
-    .mission {
-      padding: 20px;
-      min-height: 170px;
-    }
-    .number {
-      width: 38px; height: 38px;
-      display: grid; place-items: center;
-      border-radius: 11px;
-      background: #edf1ff;
-      color: #315efb;
-      font-weight: 900;
-      margin-bottom: 14px;
-    }
-    .mission h3 { margin: 0 0 8px; font-size: 1rem; }
-    .mission p { margin: 0; color: #70798a; font-size: .88rem; line-height: 1.55; }
-    .info {
-      margin-top: 28px;
-      padding: 22px 25px;
-      background: #fff;
-      border-radius: 18px;
-      border: 1px solid #e6e9f0;
-    }
-    .info strong { display: block; margin-bottom: 7px; }
-    .info p { margin: 0; color: #667085; line-height: 1.65; }
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #8a93a3;
-      font-size: .82rem;
-    }
-    @media (max-width: 900px) {
-      .missions { grid-template-columns: repeat(2, 1fr); }
-      .form-grid { grid-template-columns: 1fr 1fr; }
-      .form-grid > div:first-child { grid-column: 1 / -1; }
-    }
-    @media (max-width: 560px) {
-      .header { padding: 15px 20px; }
-      .hero { padding-top: 38px; }
-      .missions { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-grid > div:first-child { grid-column: auto; }
-      .student-card { padding: 21px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission 1 | Data Detective</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315efb,#6846d9);color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800}.brand small{display:block;font-size:.75rem;opacity:.85;margin-top:3px}
+.progress{font-size:.9rem;background:#ffffff20;padding:9px 13px;border-radius:10px}
+.container{max-width:1180px;margin:auto;padding:30px 22px 60px}
+.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:24px}
+h1{margin:0 0 8px;font-size:2rem}.desc{margin:0;color:#667085;line-height:1.6}
+.student{background:#fff;border:1px solid #e4e8f0;border-radius:14px;padding:12px 15px;font-size:.88rem;color:#667085;white-space:nowrap}
+.card{background:#fff;border:1px solid #e4e8f0;border-radius:18px;padding:24px;box-shadow:0 8px 24px #1f2d3d0b;margin-bottom:20px}
+.card h2{font-size:1.15rem;margin:0 0 8px}.hint{color:#667085;font-size:.9rem;line-height:1.6}
+.table-wrap{overflow:auto;border:1px solid #dfe4ec;border-radius:12px;margin-top:18px}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{background:#eef2ff;color:#263b9b;text-align:left;padding:12px;font-size:.86rem}
+td{padding:11px 12px;border-top:1px solid #edf0f5;font-size:.88rem}
+tr:nth-child(even){background:#fafbfe}
+.flag-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.issue{border:1px solid #e0e4ec;border-radius:14px;padding:16px}
+.issue label{font-weight:700;display:block;margin-bottom:8px}
+.issue small{display:block;color:#7b8494;margin-bottom:9px;line-height:1.5}
+select,textarea{width:100%;border:1px solid #d5dae5;border-radius:10px;padding:11px;font:inherit;outline:none}
+textarea{min-height:110px;resize:vertical;line-height:1.6}
+select:focus,textarea:focus{border-color:#315efb;box-shadow:0 0 0 3px #315efb18}
+.error{color:#c62828;font-size:.85rem;margin-top:8px;display:none}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}
+button{border:0;border-radius:11px;padding:13px 20px;font-weight:800;font-size:.95rem;cursor:pointer}
+.back{background:#eef1f6;color:#344054}.submit{background:#315efb;color:white}
+button:hover{filter:brightness(.96)}
+.result{display:none;border:1px solid #cfd8ff;background:#f7f8ff}
+.score{font-size:2rem;font-weight:900;color:#315efb}
+.feedback{line-height:1.7;color:#4b5565}
+@media(max-width:700px){.top{display:block}.student{margin-top:14px;display:inline-block}.flag-grid{grid-template-columns:1fr}h1{font-size:1.6rem}}
+</style>
 </head>
 <body>
 
-<header class="header">
-  <div class="brand">
-    DataLab M.6
-    <small>Data Cleaning & Data Analysis</small>
-  </div>
-  <a class="teacher-link" href="teacher.html">Teacher Dashboard</a>
+<header>
+  <div class="brand">DataLab M.6<small>Data Cleaning & Data Analysis</small></div>
+  <div class="progress">Mission 1 / 5</div>
 </header>
 
-<section class="hero">
-  <div class="badge">สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 6</div>
-  <h1>ภารกิจ Data Cleaning<br>&amp; Data Analysis</h1>
-  <p class="subtitle">
-    เรียนรู้การตรวจสอบ ทำความสะอาด และวิเคราะห์ข้อมูล
-    ผ่านภารกิจที่ต้องใช้เหตุผลและการคิดวิเคราะห์จากข้อมูลจริง
-  </p>
-</section>
+<main class="container">
+  <div class="top">
+    <div>
+      <h1>Mission 1: Data Detective</h1>
+      <p class="desc">ภารกิจนักสืบข้อมูล — ตรวจหาปัญหาที่ซ่อนอยู่ใน Dataset ก่อนนำข้อมูลไปวิเคราะห์</p>
+    </div>
+    <div class="student" id="studentInfo">กำลังโหลดข้อมูลนักเรียน...</div>
+  </div>
 
-<main class="main">
+  <section class="card">
+    <h2>สถานการณ์</h2>
+    <p class="hint">
+      โรงเรียนต้องการนำข้อมูลนักเรียนไปวิเคราะห์ผลการเรียนและพฤติกรรมการเข้าเรียน
+      แต่ข้อมูลที่รวบรวมมาจากหลายแหล่งอาจมีความผิดพลาด นักเรียนได้รับหน้าที่เป็น
+      <strong>Data Detective</strong> ต้องค้นหาปัญหาให้ได้ก่อนเริ่มวิเคราะห์
+    </p>
 
-  <section class="card student-card">
-    <div class="card-title">เริ่มต้นภารกิจ</div>
-    <div class="card-note">กรอกข้อมูลของตนเองก่อนเริ่มทำแบบฝึกหัด</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>รหัส</th><th>อายุ</th><th>เพศ</th><th>คะแนน</th><th>การมาเรียน (%)</th><th>รายได้ครอบครัว</th><th>วันที่บันทึก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>S001</td><td>17</td><td>ชาย</td><td>78</td><td>96</td><td>18,000</td><td>01/09/2026</td></tr>
+          <tr><td>S002</td><td>16</td><td>หญิง</td><td>85</td><td>94</td><td>22,000</td><td>02/09/2026</td></tr>
+          <tr><td>S003</td><td>17</td><td>หญิง</td><td>91</td><td>98</td><td>-</td><td>03/09/2026</td></tr>
+          <tr><td>S004</td><td>17</td><td>ชาย</td><td>105</td><td>92</td><td>17,500</td><td>04/09/2026</td></tr>
+          <tr><td>S005</td><td>18</td><td>ชาย</td><td>72</td><td>91</td><td>20,000</td><td>05/09/2026</td></tr>
+          <tr><td>S006</td><td>17</td><td>หญิง</td><td>88</td><td>89</td><td>19,000</td><td>06/09/2026</td></tr>
+          <tr><td>S007</td><td>17</td><td>หญิง</td><td>77</td><td>90</td><td>21,000</td><td>2026-09-07</td></tr>
+          <tr><td>S008</td><td>16</td><td>male</td><td>81</td><td>93</td><td>18,500</td><td>08/09/2026</td></tr>
+          <tr><td>S009</td><td>17</td><td>ชาย</td><td>68</td><td>87</td><td>19,500</td><td>09/09/2026</td></tr>
+          <tr><td>S009</td><td>17</td><td>ชาย</td><td>68</td><td>87</td><td>19,500</td><td>09/09/2026</td></tr>
+          <tr><td>S010</td><td>45</td><td>หญิง</td><td>83</td><td>95</td><td>23,000</td><td>10/09/2026</td></tr>
+          <tr><td>S011</td><td>17</td><td>หญิง</td><td>74</td><td>110</td><td>16,000</td><td>11/09/2026</td></tr>
+          <tr><td>S012</td><td>16</td><td>ชาย</td><td>89</td><td>88</td><td>17,000</td><td>12/09/2026</td></tr>
+          <tr><td>S013</td><td>17</td><td>หญิง</td><td>80</td><td>92</td><td>18,000</td><td>13/09/2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    <div class="form-grid">
-      <div>
-        <label for="studentName">ชื่อ–นามสกุล</label>
-        <input id="studentName" type="text" placeholder="เช่น เด็กชายตัวอย่าง ใจดี">
+  <section class="card">
+    <h2>ตอนที่ 1 — ค้นหาปัญหาของข้อมูล</h2>
+    <p class="hint">เลือกประเภทปัญหาที่พบในแต่ละกรณี และอย่าเลือกจากการเดา ให้พิจารณาจากความสมเหตุสมผลของข้อมูล</p>
+
+    <div class="flag-grid">
+      <div class="issue">
+        <label>กรณีที่ 1: S003 รายได้ครอบครัวเป็น “-”</label>
+        <small>ข้อมูลลักษณะนี้ควรจัดอยู่ในปัญหาประเภทใด</small>
+        <select id="q1">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">Outlier / ค่าผิดปกติ</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
       </div>
-      <div>
-        <label for="classRoom">ห้อง</label>
-        <input id="classRoom" type="text" placeholder="ม.6/1">
+
+      <div class="issue">
+        <label>กรณีที่ 2: S004 มีคะแนน 105</label>
+        <small>สมมติว่าคะแนนเต็มคือ 100 คะแนน</small>
+        <select id="q2">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">ค่าผิดช่วง / ไม่สมเหตุสมผล</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
       </div>
-      <div>
-        <label for="studentNo">เลขที่</label>
-        <input id="studentNo" type="number" min="1" placeholder="เลขที่">
+
+      <div class="issue">
+        <label>กรณีที่ 3: S007 วันที่เป็น 2026-09-07</label>
+        <small>แถวอื่นใช้รูปแบบ วัน/เดือน/ปี</small>
+        <select id="q3">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">Outlier / ค่าผิดปกติ</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
+      </div>
+
+      <div class="issue">
+        <label>กรณีที่ 4: S009 ปรากฏ 2 ครั้ง</label>
+        <small>ข้อมูลทั้งสองแถวเหมือนกัน</small>
+        <select id="q4">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">Outlier / ค่าผิดปกติ</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
+      </div>
+
+      <div class="issue">
+        <label>กรณีที่ 5: S010 อายุ 45 ปี</label>
+        <small>กำหนดให้นักเรียนใน Dataset นี้มีอายุประมาณ 16–18 ปี</small>
+        <select id="q5">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">ค่าผิดช่วง / ผิดบริบท</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
+      </div>
+
+      <div class="issue">
+        <label>กรณีที่ 6: S011 การมาเรียน 110%</label>
+        <small>สมมติว่าค่าการมาเรียนต้องอยู่ระหว่าง 0–100%</small>
+        <select id="q6">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">ค่าผิดช่วง / ไม่สมเหตุสมผล</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
+      </div>
+
+      <div class="issue">
+        <label>กรณีที่ 7: S008 เพศเป็น “male”</label>
+        <small>ข้อมูลแถวอื่นใช้ภาษาไทย เช่น ชาย / หญิง</small>
+        <select id="q7">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="missing">Missing Value</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="outlier">Outlier / ค่าผิดปกติ</option>
+          <option value="format">รูปแบบข้อมูลไม่สม่ำเสมอ</option>
+        </select>
+      </div>
+
+      <div class="issue">
+        <label>กรณีที่ 8: ก่อนวิเคราะห์ควรทำอะไรกับข้อมูลซ้ำ?</label>
+        <small>พิจารณาผลกระทบต่อการนับจำนวนและสถิติ</small>
+        <select id="q8">
+          <option value="">-- เลือกคำตอบ --</option>
+          <option value="keep">เก็บไว้ทุกแถว เพราะข้อมูลทุกแถวสำคัญเสมอ</option>
+          <option value="check">ตรวจสอบและพิจารณาลบข้อมูลซ้ำ</option>
+          <option value="random">สุ่มเลือกเก็บเพียงบางแถว</option>
+          <option value="average">หาค่าเฉลี่ยแทนข้อมูลซ้ำทันที</option>
+        </select>
       </div>
     </div>
-
-    <button class="start-btn" onclick="startMission()">เริ่มทำภารกิจ</button>
+    <div class="error" id="error1">กรุณาตอบให้ครบทุกข้อก่อนส่งคำตอบ</div>
   </section>
 
-  <div class="missions-title">5 ภารกิจของ Data Analyst</div>
+  <section class="card">
+    <h2>ตอนที่ 2 — อธิบายแบบ Data Analyst</h2>
+    <p class="hint">ตอบเป็นภาษาของตนเอง AI จะตรวจทั้ง “แนวคิด + เหตุผล” ไม่ได้ตรวจจากคำสำคัญเพียงอย่างเดียว</p>
 
-  <section class="missions">
-    <article class="card mission">
-      <div class="number">01</div>
-      <h3>Data Detective</h3>
-      <p>ค้นหาข้อมูลที่ผิดปกติและระบุว่าปัญหาของข้อมูลคืออะไร</p>
-    </article>
+    <label for="reason1">1. หากพบ Missing Value ในรายได้ครอบครัว คุณจะจัดการอย่างไร และเพราะเหตุใด?</label>
+    <textarea id="reason1" placeholder="อธิบายวิธีที่เลือกและเหตุผล..."></textarea>
 
-    <article class="card mission">
-      <div class="number">02</div>
-      <h3>Clean the Data</h3>
-      <p>แก้ไขและจัดรูปแบบข้อมูลให้พร้อมสำหรับการวิเคราะห์</p>
-    </article>
+    <br><br>
+    <label for="reason2">2. หากนำข้อมูล S009 ที่ซ้ำกันไปคำนวณค่าเฉลี่ย จะเกิดผลกระทบอะไรได้บ้าง?</label>
+    <textarea id="reason2" placeholder="อธิบายผลกระทบที่อาจเกิดขึ้น..."></textarea>
 
-    <article class="card mission">
-      <div class="number">03</div>
-      <h3>Missing Data</h3>
-      <p>วิเคราะห์ข้อมูลที่หายไปและเลือกวิธีจัดการพร้อมอธิบายเหตุผล</p>
-    </article>
+    <br><br>
+    <label for="reason3">3. จาก Dataset นี้ ระบุปัญหาอย่างน้อย 3 ประเภท และเสนอแนวทางทำความสะอาดข้อมูล</label>
+    <textarea id="reason3" placeholder="เขียนเป็นข้อ ๆ พร้อมเหตุผล..."></textarea>
 
-    <article class="card mission">
-      <div class="number">04</div>
-      <h3>Data Analysis</h3>
-      <p>วิเคราะห์ข้อมูลหลังทำความสะอาดและตีความผลลัพธ์</p>
-    </article>
-
-    <article class="card mission">
-      <div class="number">05</div>
-      <h3>Data Analyst Challenge</h3>
-      <p>แก้โจทย์สถานการณ์จริงตั้งแต่ตรวจข้อมูลจนถึงเสนอข้อสรุป</p>
-    </article>
+    <div class="error" id="error2">กรุณาตอบคำถามอธิบายให้ครบทุกข้อ</div>
   </section>
 
-  <section class="info">
-    <strong>สิ่งที่ต้องใช้ในการทำภารกิจ</strong>
-    <p>
-      นักเรียนต้องอธิบายเหตุผลจากข้อมูลจริง ไม่ใช่เพียงเลือกคำตอบ
-      คำตอบปลายเปิดจะได้รับการตรวจตามเกณฑ์การประเมิน และสามารถดูคะแนนกับข้อเสนอแนะหลังส่งคำตอบ
-    </p>
-  </section>
+  <div class="actions">
+    <button class="back" onclick="location.href='index.html'">กลับหน้าแรก</button>
+    <button class="submit" onclick="submitMission()">ส่งคำตอบเพื่อตรวจ</button>
+  </div>
 
+  <section class="card result" id="result">
+    <h2>ผลการตรวจ Mission 1</h2>
+    <div class="score" id="score">--/15</div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="back" onclick="location.reload()">แก้ไขและส่งใหม่</button>
+      <button class="submit" onclick="location.href='mission2.html'">ไป Mission 2</button>
+    </div>
+  </section>
 </main>
 
-<footer>
-  DataLab M.6 · Data Cleaning & Data Analysis
-</footer>
-
 <script>
-  function startMission() {
-    const name = document.getElementById("studentName").value.trim();
-    const room = document.getElementById("classRoom").value.trim();
-    const no = document.getElementById("studentNo").value.trim();
+const student = JSON.parse(localStorage.getItem("datalab_student") || "null");
+const info = document.getElementById("studentInfo");
 
-    if (!name || !room || !no) {
-      alert("กรุณากรอกชื่อ–นามสกุล ห้อง และเลขที่ให้ครบก่อนเริ่มภารกิจ");
-      return;
-    }
+if (student) {
+  info.textContent = `${student.name} · ม.${student.room.replace(/^ม\./,'')} · เลขที่ ${student.no}`;
+} else {
+  info.textContent = "ยังไม่ได้ระบุข้อมูลนักเรียน";
+}
 
-    localStorage.setItem("datalab_student", JSON.stringify({
-      name: name,
-      room: room,
-      no: no
-    }));
+function submitMission(){
+  const answers = [
+    document.getElementById("q1").value,
+    document.getElementById("q2").value,
+    document.getElementById("q3").value,
+    document.getElementById("q4").value,
+    document.getElementById("q5").value,
+    document.getElementById("q6").value,
+    document.getElementById("q7").value,
+    document.getElementById("q8").value
+  ];
+  const reasons = [
+    document.getElementById("reason1").value.trim(),
+    document.getElementById("reason2").value.trim(),
+    document.getElementById("reason3").value.trim()
+  ];
 
-    // เปลี่ยนเป็นชื่อไฟล์ภารกิจจริงได้ภายหลัง
-    window.location.href = "mission1.html";
-  }
+  const complete1 = answers.every(Boolean);
+  const complete2 = reasons.every(x => x.length >= 20);
+
+  document.getElementById("error1").style.display = complete1 ? "none" : "block";
+  document.getElementById("error2").style.display = complete2 ? "none" : "block";
+  if (!complete1 || !complete2) return;
+
+  const correct = ["missing","outlier","format","duplicate","outlier","outlier","format","check"];
+  let objective = 0;
+  answers.forEach((a,i)=>{ if(a===correct[i]) objective++; });
+
+  // คะแนนเบื้องต้นสำหรับ GitHub prototype:
+  // ตอนเชื่อม AI จริง ส่วนคำอธิบายจะถูกส่งไปตรวจด้วย AI ผ่าน Backend
+  const objectiveScore = Math.round((objective / 8) * 7);
+  const writingScore = Math.min(8, Math.max(0, Math.round(
+    (reasons.join(" ").length / 360) * 8
+  )));
+  const total = Math.min(15, objectiveScore + writingScore);
+
+  const result = {
+    student,
+    mission: 1,
+    objectiveScore,
+    writingScore,
+    total,
+    answers,
+    reasons,
+    submittedAt: new Date().toISOString()
+  };
+
+  localStorage.setItem("datalab_mission1", JSON.stringify(result));
+
+  document.getElementById("score").textContent = `${total}/15`;
+  document.getElementById("feedback").innerHTML =
+    `<p><strong>กำลังบันทึกคะแนนลง Google Sheets...</strong></p>`;
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+
+  const API_URL = "https://script.google.com/macros/s/AKfycbwnpRz132j2UcEn_jYTUEQdiaGs4PeV_-vwGIcaspo8oP7C1F-NfCxkdWT9Vg2AboiE/exec";
+
+  const previousAttempts = Number(localStorage.getItem("datalab_mission1_attempts") || 0);
+  const attempts = previousAttempts + 1;
+  localStorage.setItem("datalab_mission1_attempts", attempts);
+
+  const percent = Math.round((total / 15) * 100);
+  const status = total >= 9 ? "ผ่าน" : "ต้องปรับปรุง";
+
+  const payload = {
+    name: student ? student.name : "",
+    room: student ? student.room : "",
+    no: student ? student.no : "",
+    mission1: total,
+    mission2: "",
+    mission3: "",
+    mission4: "",
+    mission5: "",
+    total: total,
+    fullScore: 15,
+    percent: percent,
+    status: status,
+    attempts: attempts,
+    aiFeedback: `ตรวจ Mission 1 เบื้องต้น: ตอบส่วนตรวจปัญหาได้ ${objective}/8 ข้อ`,
+    strengths: objective >= 6 ? "ตรวจพบปัญหาข้อมูลได้หลายประเภท" : "เริ่มต้นตรวจสอบปัญหาข้อมูลได้",
+    improvements: objective < 8 ? "ควรตรวจสอบประเภทปัญหาของข้อมูลและอธิบายเหตุผลให้ละเอียดขึ้น" : "ควรฝึกเชื่อมโยงปัญหาข้อมูลกับผลกระทบต่อการวิเคราะห์",
+    level: total >= 13 ? "ดีมาก" : total >= 10 ? "ดี" : total >= 7 ? "กำลังพัฒนา" : "เริ่มต้น",
+    passed: status
+  };
+
+  fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    document.getElementById("feedback").innerHTML =
+      `<p><strong>บันทึกคะแนนเรียบร้อย</strong></p>
+       <p>คะแนน Mission 1: <strong>${total}/15</strong> (${percent}%)</p>
+       <p>สถานะ: <strong>${status}</strong></p>
+       <p>ระบบส่งข้อมูลไปยัง Google Sheets แล้ว</p>
+       <p><strong>หมายเหตุ:</strong> ตอนนี้เป็นการตรวจเบื้องต้น ส่วน AI ตรวจคำตอบปลายเปิดจะเชื่อมในขั้นถัดไป</p>`;
+  })
+  .catch((error) => {
+    console.error(error);
+    document.getElementById("feedback").innerHTML =
+      `<p><strong>คำนวณคะแนนแล้ว แต่ไม่สามารถยืนยันการเชื่อมต่อ Google Sheets ได้</strong></p>
+       <p>กรุณาตรวจสอบ Web App URL และการตั้งค่า Deploy ของ Google Apps Script</p>`;
+  });
+}
 </script>
-
 </body>
 </html>
