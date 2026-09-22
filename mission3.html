@@ -89,11 +89,28 @@ function submitMission(){
   }
   const payload={name:student.name,room:student.room,no:student.no,mission:"mission3",score:score};
   try{
-    const qs=new URLSearchParams(payload).toString();
-    const url=API_URL+"?"+qs+"&t="+Date.now();
-    fetch(url,{method:"GET",mode:"no-cors",cache:"no-store",keepalive:true}).catch(()=>{});
-    const img=new Image();
-    img.src=url;
+    const frame=document.createElement("iframe");
+    frame.name="score_sender";
+    frame.style.display="none";
+    document.body.appendChild(frame);
+
+    const form=document.createElement("form");
+    form.method="GET";
+    form.action=API_URL;
+    form.target="score_sender";
+    form.style.display="none";
+
+    Object.keys(payload).forEach(key=>{
+      const input=document.createElement("input");
+      input.type="hidden";
+      input.name=key;
+      input.value=payload[key];
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(()=>form.remove(),3000);
   }catch(e){console.error("บันทึกคะแนน:",e);}
   localStorage.setItem("datalab_mission3",JSON.stringify({score,percent}));
   const result=document.getElementById("result");
