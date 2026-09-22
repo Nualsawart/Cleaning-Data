@@ -65,7 +65,7 @@ input,select,textarea{width:100%;border:1px solid #d5dbe6;border-radius:10px;pad
 <section class="card result" id="result"><h2>ส่ง Mission 4 สำเร็จ</h2><div class="score" id="score">--/20</div><p id="msg"></p><div class="actions"><button class="back" onclick="location.href='mission3.html'">กลับ Mission 3</button><button class="submit" onclick="location.href='mission5.html'">ไป Mission 5</button></div></section>
 </main>
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbxxuSiFtImSQshGuZ5Pde03tADOk9Bfve2t6LNdrscyTK_geFBFwvjm6gp8q8GFX-tt/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbzOBzSGQ0_JAEoOvuvh4eYtnb6nZ74aIV7xofmgxOJE6BJ-CJS619gWSp8-kya9OO6_/exec";
 const student=JSON.parse(localStorage.getItem("datalab_student")||"null");
 document.getElementById("studentInfo").textContent=student?`${student.name} · ${student.room} · เลขที่ ${student.no}`:"ไม่พบข้อมูลนักเรียน";
 
